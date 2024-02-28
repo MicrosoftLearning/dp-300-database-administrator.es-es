@@ -12,7 +12,7 @@ Los alumnos tomarán la información adquirida en las lecciones para definir los
 
 Le han contratado como administrador de bases de datos para identificar problemas relacionados con el rendimiento y proporcionar soluciones viables para resolver los problemas detectados. Debe usar Azure Portal para identificar los problemas de rendimiento y sugerir métodos para resolverlos.
 
-**Nota:** estos ejercicios piden copiar y pegar código T-SQL. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+**Nota:** En estos ejercicios se le pide tanto que copie y pegue código de T-SQL como que use los recursos de SQL existentes. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
 
 ## Revisión del uso de la CPU en Azure Portal
 
