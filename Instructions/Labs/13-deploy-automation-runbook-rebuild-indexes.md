@@ -10,6 +10,8 @@ lab:
 
 Te han contratado como administrador sénior de bases de datos para que ayudes a automatizar las operaciones cotidianas de administración de bases de datos. El objetivo de esta automatización es ayudarle a garantizar que las bases de datos de AdventureWorks sigan funcionando con el máximo rendimiento, así como proporcionar métodos para alertas basadas en determinados criterios. AdventureWorks utiliza SQL Server en las ofertas de infraestructura como servicio (IaaS) y plataforma como servicio (PaaS).
 
+**Nota:** En estos ejercicios se le puede pedir tanto que copie y pegue código de T-SQL como que use los recursos de SQL existentes. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+
 ## Creación de una cuenta de Automation
 
 1. En la máquina virtual del laboratorio, inicia una sesión del explorador y desplázate a [https://portal.azure.com](https://portal.azure.com/). Conéctate al Portal con el **Nombre de usuario** y la **Contraseña** de Azure proporcionados en la pestaña **Recursos** de esta máquina virtual de laboratorio.
