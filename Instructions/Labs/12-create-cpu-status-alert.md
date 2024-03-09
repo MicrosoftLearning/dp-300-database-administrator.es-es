@@ -10,6 +10,8 @@ lab:
 
 Le han contratado como ingeniero sénior de datos para que ayude a automatizar las operaciones cotidianas de administración de bases de datos. El objetivo de esta automatización es ayudarle a garantizar que las bases de datos de AdventureWorks sigan funcionando con el máximo rendimiento, así como proporcionar métodos para alertas basadas en determinados criterios.
 
+**Nota:** Es posible que en estos ejercicios se le pida que copie y pegue código de T-SQL y que use los recursos de SQL existentes. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+
 ## Creación de una alerta cuando una CPU excede un promedio de 80 %
 
 1. En la barra de búsqueda de la parte superior de Azure Portal, escriba **SQL** y seleccione **Bases de datos SQL**. Selecciona el nombre de la base de datos **AdventureWorksLT** que se muestra.

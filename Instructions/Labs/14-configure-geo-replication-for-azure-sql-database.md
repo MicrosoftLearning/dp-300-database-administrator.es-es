@@ -10,6 +10,8 @@ lab:
 
 Como DBA en AdventureWorks, debes habilitar la replicación geográfica para Azure SQL Database y asegurarte de que funciona correctamente. Además, conmutarás por error manualmente a otra región mediante el portal.
 
+**Nota:** Es posible que en estos ejercicios se le pida que copie y pegue código de T-SQL y que use los recursos de SQL existentes. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+
 ## Habilitación de la replicación geográfica
 
 1. En la máquina virtual del laboratorio, inicia una sesión del explorador y desplázate a [https://portal.azure.com](https://portal.azure.com/). Conéctate al Portal con el **Nombre de usuario** y la **Contraseña** de Azure proporcionados en la pestaña **Recursos** de esta máquina virtual de laboratorio.
