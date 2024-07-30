@@ -24,7 +24,7 @@ Le han contratado como administrador sénior de bases de datos para garantizar l
 
     ![Captura de pantalla de la página principal de Azure Portal con Todos los recursos seleccionado](../images/dp-300-module-03-lab-01.png)
 
-1. Seleccione el servidor de Azure SQL Database **dp300-lab-xxxxxx**, donde **xxxxxx** es una cadena aleatoria, y seleccione la opción **No configurado**, que se encuentra junto a **Administrador de Active Directory**.
+1. Selecciona el servidor de SQL **dp300-lab-xxxxxx**, donde **xxxxxx** es una cadena aleatoria, y selecciona **No configurado** junto a **Administrador de Active Directory**.
 
     ![Captura de pantalla con la opción No configurado seleccionada](../images/dp-300-module-03-lab-02.png)
 
