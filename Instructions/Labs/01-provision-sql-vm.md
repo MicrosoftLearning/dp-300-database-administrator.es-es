@@ -89,11 +89,9 @@ Es administrador de bases de datos para AdventureWorks. Debe crear un entorno de
 
 ## Conexión a SQL Server en una máquina virtual de Azure
 
-1. En la página **Información general** de la máquina virtual, seleccione el botón **Conectar** y elija RDP.
+1. En la página **Información general** de la máquina virtual, selecciona **Conectar**.
 
-    ![Imagen 21](../images/dp-300-module-01-lab-21.png)
-
-1. En la pestaña RDP, seleccione el botón **Descargar archivo RDP**.
+1. En el panel Conectar, selecciona el botón **Descargar archivo RDP**.
 
     ![Imagen 22](../images/dp-300-module-01-lab-22.png)
 
@@ -115,7 +113,7 @@ Es administrador de bases de datos para AdventureWorks. Debe crear un entorno de
 
 1. Seleccione el botón Inicio de Windows y escriba SSMS. Seleccione **Microsoft SQL Server Management Studio** en la lista.  
 
-1. Cuando se abra SSMS, observe que el cuadro de diálogo **Conectar al servidor** se rellenará previamente con el nombre de instancia predeterminado. Seleccione **Conectar**.
+1. Cuando se abra SSMS, observe que el cuadro de diálogo **Conectar al servidor** se rellenará previamente con el nombre de instancia predeterminado. Activa la opción **Confiar en el certificado de servidor** y después selecciona **Conectar**.
 
     ![Imagen 35](../images/dp-300-module-01-lab-35.png)
 
