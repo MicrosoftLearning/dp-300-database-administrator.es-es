@@ -45,12 +45,6 @@ Como administrador de base de datos de AdventureWorks, configurarás una nueva b
 
 1. Haz clic en **Revisar y crear**, revisa la configuración de la nueva red virtual y, después, haz clic en **Crear**.
 
-1. Configura el intervalo IP de la red virtual para el punto de conexión de Azure SQL Database; para ello, ve a la red virtual creada y, en el panel **Configuración**, haz clic en **Subredes**.
-
-1. Haz clic en el vínculo de subred **predeterminado**. Ten en cuenta que el **intervalo de direcciones de subred** que ves podría ser diferente.
-
-1. En el panel **Editar subred** de la derecha, expande el elemento desplegable **Servicios** y selecciona **Microsoft.Sql**. Selecciona **Guardar**.
-
 ## Aprovisionamiento de Azure SQL Database
 
 1. En Azure Portal, busca "Bases de datos SQL" en el cuadro de búsqueda de la parte superior y después haz clic en **Bases de datos SQL** en la lista de opciones.
