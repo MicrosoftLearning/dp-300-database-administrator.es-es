@@ -8,91 +8,70 @@ lab:
 
 **Tiempo estimado**: 40 minutos
 
-Los alumnos configurarán los recursos básicos necesarios para implementar Azure SQL Database con un punto de conexión de red virtual. La conectividad con SQL Database se validará mediante Azure Data Studio desde la máquina virtual del laboratorio.
+Los alumnos configurarán los recursos básicos necesarios para implementar Azure SQL Database con un punto de conexión de red virtual. La conectividad con SQL Database se validará mediante SQL Server Management Studio desde la máquina virtual del laboratorio, si está disponible, o desde la configuración de tu máquina local.
 
-Como administrador de base de datos de AdventureWorks, configurarás una nueva base de datos SQL, incluido un punto de conexión de red virtual para aumentar y simplificar la seguridad de la implementación. Azure Data Studio se usará para evaluar el uso de un cuaderno de SQL para consultar datos y retener los resultados.
+Como administrador de base de datos de AdventureWorks, configurarás una nueva base de datos SQL, incluido un punto de conexión de red virtual para aumentar y simplificar la seguridad de la implementación. SQL Server Management Studio se usará para evaluar el uso de un cuaderno de SQL para consultar datos y retener los resultados.
 
 ## Ve a Azure Portal
 
-1. En la máquina virtual del laboratorio, inicia una sesión del explorador y desplázate a [https://portal.azure.com](https://portal.azure.com/). Conéctate al Portal con el **Nombre de usuario** y la **Contraseña** de Azure proporcionados en la pestaña **Recursos** de esta máquina virtual de laboratorio.
+1. En la máquina virtual del laboratorio, si se te proporciona una, o, de lo contrario, en tu máquina local, abre una ventana del explorador.
 
-    ![Imagen 1](../images/dp-300-module-01-lab-01.png)
+1. Ve a Azure Portal en [https://portal.azure.com](https://portal.azure.com/). Inicia sesión en Azure Portal con tu cuenta de Azure o con las credenciales proporcionadas, si dispones de ellas.
 
-1. En Azure Portal, busca "grupos de recursos" en el cuadro de búsqueda de la parte superior y selecciona **Grupos de recursos** en la lista de opciones.
+1. En Azure Portal, busca *grupos de recursos* en el cuadro de búsqueda de la parte superior y selecciona **Grupos de recursos** en la lista de opciones.
 
-    ![Imagen 1](../images/dp-300-module-02-lab-45.png)
-
-1. En la página **Grupo de recursos**, comprueba el grupo de recursos que aparece (debería empezar con *contoso-rg*), anota la **ubicación** asignada al grupo de recursos, ya que la usarás en el ejercicio siguiente.
-
-    **Nota:** es posible que tengas asignada una ubicación diferente.
-
-    ![Imagen 1](../images/dp-300-module-02-lab-46.png)
+1. En la página **Grupo de recursos**, si se proporciona, selecciona el grupo de recursos que comienza por *contoso-rg*. Si este grupo de recursos no existe, crea un nuevo grupo de recursos denominado *contoso-rg* en la región local o usa un grupo de recursos existente y toma nota de la región en la que está.
 
 ## Creación de una red virtual
 
 1. En la página principal de Azure Portal, selecciona el menú izquierdo.  
 
-    ![Imagen 2](../images/dp-300-module-02-lab-01_1.png)
-
-1. En el panel de navegación izquierdo, haz clic en **Redes**  
+1. En el panel de navegación izquierdo, haz clic en **Redes virtuales**  
 
 1. Haz clic en **+ Crear** para abrir la página **Crear una red virtual**. En la pestaña **Datos básicos**, completa la siguiente información:
 
     - **Suscripción**: &lt;tu suscripción&gt;
-    - **Grupo de recursos:** empezando por *contoso-rg*
+    - **Grupo de recursos:** que empieza en *DP300* o el grupo de recursos que seleccionó anteriormente
     - **Nombre:** lab02-vnet
     - **Región:** selecciona la misma región en la que se creó el grupo de recursos
 
-1. Haz clic en **Revisar y crear**, revisa la configuración de la nueva red virtual y, después, haz clic en **Crear**.
+1. Selecciona **Revisión + crear**, revisa la configuración de la nueva red virtual y después selecciona **Crear**.
 
-## Aprovisionamiento de Azure SQL Database
+## Disposición de una base de datos de Azure SQL en Azure Portal
 
-1. En Azure Portal, busca "Bases de datos SQL" en el cuadro de búsqueda de la parte superior y después haz clic en **Bases de datos SQL** en la lista de opciones.
-
-    ![Imagen 5](../images/dp-300-module-02-lab-10.png)
+1. En Azure Portal, busca *Bases de datos SQL* en el cuadro de búsqueda de la parte superior y después selecciona **Bases de datos SQL** en la lista de opciones.
 
 1. En la hoja **Bases de datos SQL**, selecciona **+ Crear**.
-
-    ![Imagen 6](../images/dp-300-module-02-lab-10_1.png)
 
 1. En la página **Crear base de datos SQL**, selecciona las siguientes opciones en la pestaña **Aspectos básicos** y, después, haz clic en **Siguiente: Redes**.
 
     - **Suscripción**: &lt;tu suscripción&gt;
-    - **Grupo de recursos:** empezando por *contoso-rg*
+    - **Grupo de recursos:** que empieza en *DP300* o el grupo de recursos que seleccionó anteriormente
     - **Nombre de base de datos**: AdventureWorksLT
-    - **Servidor:** haz clic en el vínculo **Crear nuevo**. Se abrirá la página del **servidor de SQL Database**. Proporciona los detalles del servidor como se indica a continuación:
-        - **Nombre del servidor:** dp300-lab-&lt;tus iniciales (en minúsculas)&gt;(un nombre de servidor debe ser único globalmente)
+    - **Servidor:** selecciona el vínculo **Crear nuevo**. Se abrirá la página del **servidor de SQL Database**. Proporciona los detalles del servidor como se indica a continuación:
+        - **Nombre del servidor:** dp300-lab-&lt;tus iniciales (minúsculas)&gt; y, si es necesario, un número aleatorio de 5 dígitos (el nombre del servidor debe ser único globalmente)
         - **Ubicación:**&lt;la región local, igual que la región seleccionada para el grupo de recursos; de lo contrario, se puede producir un error&gt;
         - **Método de autenticación**: usa la autenticación de SQL
         - **Inicio de sesión del administrador del servidor:** dp300admin
-        - **Contraseña**: dp300P@ssword!
-        - **Confirmar contraseña: **dp300P@ssword!
+        - **Contraseña:** selecciona una contraseña compleja y toma nota de ella.
+        - **Confirmar contraseña:** selecciona la misma contraseña que seleccionaste anteriormente.
+    - Selecciona **Aceptar** para volver a la página **Crear base de datos SQL**.
+    - Deja la opción **¿Quieres usar un grupo elástico?** establecida en **No**.
+    - **Entorno de la carga de trabajo**: desarrollo
+    - En la opción **Proceso y almacenamiento**, selecciona el vínculo **Configurar base de datos**. En la página **Configurar**, en el elemento desplegable **Nivel de servicio**, selecciona **Básico** y, a continuación, **Aplicar**.
 
-        Tu página **Crear servidor de SQL Database** debe ser similar a la siguiente. A continuación, haz clic en **Aceptar**.
+1. Para la opción **Redundancia de almacenamiento de Backup**, mantén el valor predeterminado: **Almacenamiento de copia de seguridad con redundancia local**.
 
-        ![Imagen 7](../images/dp-300-module-02-lab-11.png)
+1. Y, después, selecciona **Siguiente: redes**.
 
-    -  Vuelve a la página **Crear base de datos SQL** y asegúrate de que **¿Deseas usar el grupo elástico?** está en **No**.
-    -  En la opción **Proceso y almacenamiento**, haz clic en el vínculo **Configurar base de datos**. En la página **Configurar**, en el elemento desplegable **Nivel de servicio**, selecciona **Básico** y, a continuación, **Aplicar**.
+1. En la pestaña **Redes**, en la opción **Conectividad de red**, selecciona el botón de radio **Punto de conexión privado**.
 
-    **Nota:** anota este nombre de servidor y tu información de inicio de sesión. Lo usarás laboratorios posteriores.
-
-1. Para la opción **Redundancia de almacenamiento de copia de seguridad**, mantén el valor predeterminado: **Almacenamiento de copia de seguridad con redundancia geográfica**.
-
-1. Luego haz clic en **Siguiente: Redes**.
-
-1. En la pestaña **Redes**, en la opción **Conectividad de red**, haz clic en el botón de radio **Punto de conexión privado**.
-
-    ![Imagen 8](../images/dp-300-module-02-lab-14.png)
-
-1. Posteriormente, haz clic en el vínculo **+ Agregar un punto de conexión privado** en la opción **Puntos de conexión privados**.
-
-    ![Imagen 9](../images/dp-300-module-02-lab-15.png)
+1. Después, selecciona el vínculo **+ Agregar un punto de conexión privado** en la opción **Puntos de conexión privados**.
 
 1. Completa el panel derecho **Crear punto de conexión privado** de la siguiente manera:
 
     - **Suscripción**: &lt;tu suscripción&gt;
-    - **Grupo de recursos:** empezando por *contoso-rg*
+    - **Grupo de recursos:** que empieza en *DP300* o el grupo de recursos que seleccionó anteriormente
     - **Ubicación:**&lt;la región local, igual que la región seleccionada para el grupo de recursos; de lo contrario, se puede producir un error&gt;
     - **Nombre:** DP-300-SQL-Endpoint
     - **Recurso secundario de destino:** SqlServer
@@ -100,141 +79,143 @@ Como administrador de base de datos de AdventureWorks, configurarás una nueva b
     - **Subred:** lab02-vnet/default (10.x.0.0/24)
     - **Integrar con la zona DNS privada**: sí
     - **Zona DNS privada:** mantén el valor predeterminado
-    - Revisa la configuración y, luego, haz clic en **Aceptar**  
-
-    ![Imagen 10](../images/dp-300-module-02-lab-16.png)
+    - Revisa la configuración y, luego, selecciona **Aceptar**.  
 
 1. El nuevo punto de conexión se mostrará en la lista **Puntos de conexión privados**.
 
-    ![Imagen 11](../images/dp-300-module-02-lab-17.png)
-
-1. Haz clic en **Siguiente: Seguridad** y, después, en **Siguiente: Configuración adicional**.  
+1. Selecciona **Siguiente: Seguridad** y, después, **Siguiente: Configuración adicional**.  
 
 1. En la página **Configuración adicional**, selecciona **Ejemplo** en la opción **Usar datos existentes**. Selecciona **Aceptar** si se muestra un mensaje emergente para la base de datos de ejemplo.
 
-    ![Imagen 12](../images/dp-300-module-02-lab-18.png)
+1. Seleccione **Revisar + crear**.
 
-1. Haz clic en **Revisar y crear**.
+1. Revise la configuración antes de seleccionar **Crear**.
 
-1. Revisa la configuración antes de hacer clic en **Crear**.
-
-1. Una vez finalizada la implementación, haz clic en **Ir al recurso**.
+1. Una vez finalizada la implementación, seleccione **Ir al recurso**.
 
 ## Habilitar el acceso a Azure SQL Database
 
-1. En la página **SQL Database**, selecciona la sección **Información general** y, a continuación, selecciona el vínculo para el nombre del servidor en la sección superior:
-
-    ![Imagen 13](../images/dp-300-module-02-lab-19.png)
+1. En la página **SQL Database**, selecciona la sección **Información general** y luego selecciona el vínculo para el nombre del servidor en la sección superior:
 
 1. En la hoja de navegación servidores SQL, selecciona **Redes** en la sección **Seguridad**.
 
-    ![Imagen 14](../images/dp-300-module-02-lab-20.png)
+1. En la pestaña **Acceso público**, seleccione **Redes seleccionadas**.
 
-1. En la pestaña **Acceso público**, selecciona **Redes seleccionadas** y, después, selecciona la propiedad **Permitir a los servicios y recursos de Azure acceder a este servidor**. Haz clic en **Guardar**.
+1. Selecciona **+ Agregar la dirección IPv4 del cliente**. Esto agregará una regla de firewall para permitir que la dirección IP actual acceda al servidor SQL Server.
 
-    ![Imagen 15](../images/dp-300-module-02-lab-21.png)
+1. Activa la propiedad **Permitir que los servicios y recursos de Azure accedan a este servidor**.
 
-## Conexión a Azure SQL Database en Azure Data Studio
+1. Seleccione **Guardar**.
 
-1. Inicia Azure Data Studio desde la máquina virtual del laboratorio.
+---
 
-    - Es posible que veas este elemento emergente en el inicio inicial de Azure Data Studio. Si te aparece, haz clic en **Sí (recomendado)**  
+## Conectarse a Azure SQL Database mediante SQL Server Management Studio
 
-        ![Imagen 16](../images/dp-300-module-02-lab-22.png)
+1. En Azure Portal, selecciona las **Bases de datos SQL**, en el panel de navegación de la izquierda. Y después selecciona la base de datos **AdventureWorksLT**.
 
-1. Cuando se abra Azure Data Studio, haz clic en el botón **Conexiones** de la esquina superior izquierda y, después, en **Agregar conexión**.
+1. En la página **Información general**, copia el valor **Nombre de servidor**.
 
-    ![Imagen 17](../images/dp-300-module-02-lab-25.png)
+1. Inicia SQL Server Management Studio desde la máquina virtual del laboratorio, si se te proporciona, o desde tu máquina local, si no es así.
 
-1. En la barra lateral **Conexión**, rellene la sección **Detalles de conexión** con información de conexión para conectarte a la SQL Database creada en los pasos anteriores.
+1. En el cuadro de diálogo **Conectar con el servidor**, pega el valor **Nombre del servidor**, copiado desde Azure Portal.
 
-    - Tipo de conexión: **Microsoft SQL Server**
-    - Servidor: escribe el nombre del SQL Server creado anteriormente. Por ejemplo: **dp300-lab-xxxxxxxx.database.windows.net** (donde "xxxxxxxx" es un número random)
-    - Tipo de autenticación: **Inicio de sesión SQL**
-    - Nombre de usuario: **dp300admin**
-    - Contraseña: **dp300P@ssword!**
-    - Expande la lista desplegable Base de datos para seleccionar **AdventureWorksLT** 
-        - **NOTA:** es posible que se te pida que agregues una regla de firewall que permita el acceso IP de cliente a este servidor. Si se te pide que agregues una regla de firewall, haz clic en **Agregar cuenta** e inicia sesión en tu cuenta de Azure. En la pantalla **Crear nueva regla de firewall**, haz clic en **Aceptar**.
+1. En la lista desplegable **Autenticación**, selecciona **Autenticación de SQL Server**.
 
-        ![Imagen 18](../images/dp-300-module-02-lab-26.png)
+1. En el campo **Inicio de sesión**, escribe **dp300admin**.
 
-        Como alternativa, puedes crear manualmente una regla de firewall para el SQL Server en Azure Portal; para ello, ve a tu servidor SQL Server, selecciona **Redes** y, después, selecciona **+ Agregar la dirección IPv4 del cliente (tu dirección IP)**
+1. En el campo **Contraseña** , escribe la contraseña seleccionada durante la creación del servidor de SQL Server.
 
-        ![Imagen 18](../images/dp-300-module-02-lab-47.png)
+1. Seleccione **Conectar**.
 
-    De nuevo en la barra lateral Conexión, sigue rellenando los detalles de la conexión:  
+1. Abre SQL Server Management Studio y conéctate a tu servidor de Azure SQL Database. Puedes expandir el servidor y luego el nodo **Bases de datos** para ver la base de datos *AdventureWorksLT*.
 
-    - El grupo de servidores permanecerá en el **&lt;valor predeterminado&gt;**
-    - El valor de Nombre (opcional) se puede rellenar con un nombre descriptivo de la base de datos, si se quiere.
-    - Revisa la configuración y haz clic en **Conectar**  
+## Consultar Azure SQL Database mediante SQL Server Management Studio
 
-    ![Imagen 19](../images/dp-300-module-02-lab-27.png)
+1. En SQL Server Management Studio, haz clic con el botón derecho en la base de datos *AdventureWorksLT* y selecciona **Nueva consulta**.
 
-1. Azure Data Studio se conectará a la base de datos y mostrará información básica acerca de la base de datos, incluida una lista parcial de objetos.
+1. Pega la instrucción SQL siguiente en la ventana de consulta:
 
-    ![Imagen 20](../images/dp-300-module-02-lab-28.png)
+    ```sql
+    SELECT TOP 10 cust.[CustomerID], 
+        cust.[CompanyName], 
+        SUM(sohead.[SubTotal]) as OverallOrderSubTotal
+    FROM [SalesLT].[Customer] cust
+        INNER JOIN [SalesLT].[SalesOrderHeader] sohead
+             ON sohead.[CustomerID] = cust.[CustomerID]
+    GROUP BY cust.[CustomerID], cust.[CompanyName]
+    ORDER BY [OverallOrderSubTotal] DESC
+    ```
 
-## Consultar Azure SQL Database con un cuaderno de SQL
+1. Selecciona el botón **Ejecutar** de la barra de herramientas para ejecutar la consulta.
 
-1. En Azure Data Studio, conectado a la base de datos AdventureWorksLT de este laboratorio, haz clic en el botón **Nuevo cuaderno**.
+1. En el panel **Resultados**, revisa los resultados de la consulta.
 
-    ![Imagen 21](../images/dp-300-module-02-lab-29.png)
+1. Haz clic con el botón derecho en la base de datos *AdventureWorksLT* y selecciona **Nueva consulta**.
 
-1. Haz clic en el vínculo **+Texto** para agregar un nuevo cuadro de texto en el cuaderno.  
+1. Pega la instrucción SQL siguiente en la ventana de consulta:
 
-    ![Imagen 22](../images/dp-300-module-02-lab-30.png)
+    ```sql
+    SELECT TOP 10 cat.[Name] AS ProductCategory, 
+        SUM(detail.[OrderQty]) AS OrderedQuantity
+    FROM salesLT.[ProductCategory] cat
+        INNER JOIN [SalesLT].[Product] prod
+            ON prod.[ProductCategoryID] = cat.[ProductCategoryID]
+        INNER JOIN [SalesLT].[SalesOrderDetail] detail
+            ON detail.[ProductID] = prod.[ProductID]
+    GROUP BY cat.[name]
+    ORDER BY [OrderedQuantity] DESC
+    ```
 
-**Nota:** dentro del cuaderno, puedes insertar texto sin formato para explicar las consultas o los conjuntos de resultados.
+1. Selecciona el botón **Ejecutar** de la barra de herramientas para ejecutar la consulta.
 
-1. Escribe el texto **Top Ten Customers by Order SubTotal**, lo puedes poner en negrita si lo deseas.
+1. En el panel **Resultados**, revisa los resultados de la consulta.
 
-    ![Captura de pantalla de un teléfono móvil Descripción generada automáticamente](../images/dp-300-module-02-lab-31.png)
+1. Cierre SQL Server Management Studio. Si se te solicita guardar los cambios, selecciona **No**.
 
-1. Haz clic en el botón **+ Celda** y, a después, en **Celda de código** para agregar una nueva celda de código al final del cuaderno.  
+---
 
-    ![Imagen 23](../images/dp-300-module-02-lab-32.png)
+## Recursos de limpieza
 
-5. Pega la siguiente instrucción SQL en la nueva celda:
+Si no usa la máquina virtual para ningún otro propósito, puedes limpiar los recursos que creaste en este laboratorio.
 
-```sql
-SELECT TOP 10 cust.[CustomerID], 
-    cust.[CompanyName], 
-    SUM(sohead.[SubTotal]) as OverallOrderSubTotal
-FROM [SalesLT].[Customer] cust
-    INNER JOIN [SalesLT].[SalesOrderHeader] sohead
-         ON sohead.[CustomerID] = cust.[CustomerID]
-GROUP BY cust.[CustomerID], cust.[CompanyName]
-ORDER BY [OverallOrderSubTotal] DESC
-   ```
+### Eliminar el grupo de recursos
 
-1. Haz clic en el círculo azul con la flecha para ejecutar la consulta. Observa de qué forma los resultados se incluyen en la celda con la consulta.
+Si creaste un nuevo grupo de recursos para este laboratorio, puedes eliminar el grupo de recursos para quitar todos los recursos creados en este laboratorio.
 
-1. Haz clic en el botón **+ Texto** para agregar una nueva celda de texto.
+1. En Azure Portal, selecciona **Grupos de recursos** en el panel de navegación izquierdo o busca **Grupos de recursos** en la barra de búsqueda y selecciónalo desde los resultados.
 
-1. Escribe el texto **Top Ten Ordered Product Categories**, lo puedes poner en negrita si lo deseas.
+1. Ve al grupo de recursos que creaste para este laboratorio. El grupo de recursos contendrá la máquina virtual y otros recursos creados en este laboratorio.
 
-1. Vuelve a hacer clic en **+ Código** para agregar una nueva celda y pega la siguiente instrucción SQL en la celda:
+1. Seleccione **Eliminar grupo de recursos** del menú superior.
 
-```sql
-SELECT TOP 10 cat.[Name] AS ProductCategory, 
-    SUM(detail.[OrderQty]) AS OrderedQuantity
-FROM salesLT.[ProductCategory] cat
-   INNER JOIN [SalesLT].[Product] prod
-      ON prod.[ProductCategoryID] = cat.[ProductCategoryID]
-   INNER JOIN [SalesLT].[SalesOrderDetail] detail
-      ON detail.[ProductID] = prod.[ProductID]
-GROUP BY cat.[name]
-ORDER BY [OrderedQuantity] DESC
-```
+1. En el panel **Eliminar un grupo de recursos**, escribe el nombre del grupo de recursos para confirmarlo y selecciona **Eliminar**.
 
-1. Haz clic en el círculo azul con la flecha para ejecutar la consulta.
+1. Espera a que se elimine el grupo de recursos.
 
-1. Para ejecutar todas las celdas del cuaderno y presentar los resultados, haz clic en el botón **Ejecutar todo** en la barra de herramientas.
+1. Cierra Azure Portal.
 
-    ![Imagen 17](../images/dp-300-module-02-lab-33.png)
+### Eliminar solo los recursos del laboratorio
 
-1. En Azure Data Studio, guarda el cuaderno en el menú Archivo (guardar o guardar como) en la ruta de acceso de **C:\Labfiles\Deploy Azure SQL Database** (crea la estructura de carpetas si no existe). Asegúrate de que la extensión de archivo es **.ipynb**
+Si no creaste ningún grupo de recursos nuevo para este laboratorio y deseas dejar intacto el grupo de recursos y sus recursos anteriores, aún puedes eliminar los recursos creados en este laboratorio.
 
-1. Cierra la pestaña del cuaderno desde Azure Data Studio. En el menú Archivo, selecciona Abrir archivo y abre el cuaderno que acabas de guardar. Observa que los resultados de la consulta se han guardado junto con las consultas en el cuaderno.
+1. En Azure Portal, selecciona **Grupos de recursos** en el panel de navegación izquierdo o busca **Grupos de recursos** en la barra de búsqueda y selecciónalo desde los resultados.
+
+1. Ve al grupo de recursos que creaste para este laboratorio. El grupo de recursos contendrá la máquina virtual y otros recursos creados en este laboratorio.
+
+1. Selecciona todos los recursos con el prefijo del nombre de SQL Server que especificaste anteriormente en el laboratorio. Además, selecciona la red virtual y la zona DNS privada que creaste.
+
+1. Seleccione **Eliminar** en el menú superior.
+
+1. En el cuadro de diálogo **Eliminar recursos**, escribe **delete** y selecciona **Eliminar**.
+
+1. Para confirmar la eliminación, escribe el nombre del recurso y selecciona **Eliminar**.
+
+1. Espera a que se eliminen los recursos.
+
+1. Cierra Azure Portal.
+
+---
+
+Completaste correctamente este laboratorio.
 
 En este ejercicio, has visto cómo implementar una Azure SQL Database con un punto de conexión de red virtual. También has podido conectarte a la base de datos SQL que has creado mediante SQL Server Management Studio.

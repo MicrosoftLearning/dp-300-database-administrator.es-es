@@ -10,52 +10,63 @@ lab:
 
 Los alumnos tomarán la información adquirida en las lecciones para definir los resultados de un proyecto de transformación digital dentro de AdventureWorks. Al examinar Azure Portal, así como otras herramientas, los alumnos determinarán cómo usar herramientas nativas para identificar y resolver problemas relacionados con el rendimiento. Finalmente, los alumnos podrán evaluar un diseño de base de datos para los problemas con la normalización, la selección de tipos de datos y el diseño de índices.
 
-Le han contratado como administrador de bases de datos para identificar problemas relacionados con el rendimiento y proporcionar soluciones viables para resolver los problemas detectados. AdventureWorks ha vendido bicicletas y piezas de bicicleta directamente a los consumidores y distribuidores durante más de una década. Su trabajo consiste en identificar problemas en el rendimiento de las consultas y corregirlos mediante las técnicas aprendidas en este módulo.
+Te han contratado como administrador de bases de datos para identificar problemas relacionados con el rendimiento y proporcionar soluciones viables para resolver los problemas detectados. AdventureWorks ha vendido bicicletas y piezas de bicicleta directamente a los consumidores y distribuidores durante más de una década. Tu trabajo consiste en identificar problemas en el rendimiento de las consultas y corregirlos mediante las técnicas aprendidas en este módulo.
 
-**Nota:** estos ejercicios piden copiar y pegar código T-SQL. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+> &#128221; Estos ejercicios te piden copiar y pegar código T-SQL. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+
+## Configura el entorno
+
+Si la máquina virtual de laboratorio se proporcionó y está preconfigurada, deberías encontrar los archivos de laboratorio listos en la carpeta **C:\LabFiles**. *Dedica un momento a comprobar si los archivos ya están allí, y omite esta sección*. Sin embargo, si usas tu propia máquina o faltan los archivos para laboratorio, deberás clonarlos desde *GitHub* para continuar.
+
+1. Desde la máquina virtual del laboratorio, o tu máquina local si no se te proporcionó ninguna, inicia una sesión de Visual Studio Code.
+
+1. Abre la paleta de comandos (CTRL+Mayús+P) y escribe **Git: Clone**. Selecciona la opción **Git: Clone**.
+
+1. Pega la siguiente dirección URL en el campo **Repository URL** y selecciona **Enter**.
+
+    ```url
+    https://github.com/MicrosoftLearning/dp-300-database-administrator.git
+    ```
+
+1. Guarda el repositorio en la carpeta **C:\LabFiles** en la máquina virtual del laboratorio o en tu máquina local si no se te proporcionó ninguna (crea la carpeta si no existe).
+
+---
 
 ## Restaurar una base de datos
 
-1. Descarga el archivo de copia de seguridad de la base de datos ubicado en **https://github.com/MicrosoftLearning/dp-300-database-administrator/blob/master/Instructions/Templates/AdventureWorks2017.bak** en **C:\LabFiles\Monitor y optimiza** la ruta de acceso en la máquina virtual del laboratorio (crea la estructura de carpetas si no existe).
+Si ya tienes restaurada la base de datos **AdventureWorks2017**, puedes omitir esta sección.
 
-    ![Imagen 03](../images/dp-300-module-07-lab-03.png)
+1. Desde la máquina virtual del laboratorio o la máquina local si no se proporcionó una, inicia una sesión de SQL Server Management Studio (SSMS).
 
-1. Selecciona el botón Inicio de Windows y escribe SSMS. Selecciona **Microsoft SQL Server Management Studio 18** en la lista.  
+1. Cuando se abra SSMS, aparecerá de forma predeterminada el cuadro de diálogo **Conectar al servidor**. Elige la instancia predeterminada y selecciona **Conectar**. Es posible que tengas que activar la casilla **Certificado de servidor de confianza**.
 
-    ![Imagen 01](../images/dp-300-module-01-lab-34.png)
+    > &#128221; Ten en cuenta que si usas tu propia instancia de SQL Server, deberás conectarte a ella mediante el nombre y las credenciales de la instancia de servidor adecuadas.
 
-1. Cuando se abra SSMS, observa que el cuadro de diálogo **Conectar con el servidor** se rellenará previamente con el nombre de la instancia predeterminado. Seleccione **Conectar**.
+1. Seleccione la carpeta **Bases de datos** y, a continuación, **Nueva consulta**.
 
-    ![Imagen 02](../images/dp-300-module-07-lab-01.png)
-
-1. Selecciona la carpeta **Bases de datos** y después **Nueva consulta**.
-
-    ![Imagen 03](../images/dp-300-module-07-lab-04.png)
-
-1. En la ventana Nueva consulta, copia y pega la consulta de T-SQL siguiente. Ejecuta la consulta para restaurar la base de datos.
+1. En la ventana Nueva consulta, copie y pegue T-SQL. Ejecute la consulta para restaurar la base de datos.
 
     ```sql
     RESTORE DATABASE AdventureWorks2017
-    FROM DISK = 'C:\LabFiles\Monitor and optimize\AdventureWorks2017.bak'
+    FROM DISK = 'C:\LabFiles\dp-300-database-administrator\Allfiles\Labs\Shared\AdventureWorks2017.bak'
     WITH RECOVERY,
           MOVE 'AdventureWorks2017' 
-            TO 'C:\LabFiles\Monitor and optimize\AdventureWorks2017.mdf',
+            TO 'C:\LabFiles\AdventureWorks2017.mdf',
           MOVE 'AdventureWorks2017_log'
-            TO 'C:\LabFiles\Monitor and optimize\AdventureWorks2017_log.ldf';
+            TO 'C:\LabFiles\AdventureWorks2017_log.ldf';
     ```
 
-    **Nota:** el nombre y la ruta de acceso del archivo de copia de seguridad de la base de datos deben coincidir con lo descargado en el paso 1; de lo contrario, se producirá un error en el comando.
+    > &#128221; Debes tener una carpeta denominada **C:\LabFiles**. Si no tienes esta carpeta, créala o especifica otra ubicación para la base de datos y los archivos de copia de seguridad.
 
-1. Debería aparecer un mensaje de operación correcta una vez completada la restauración.
-
-    ![Imagen 03](../images/dp-300-module-07-lab-05.png)
+1. En la pestaña **Mensajes**, deberías ver un mensaje que indica que la base de datos se restauró correctamente.
 
 ## Examen de la consulta e identificación del problema
 
-1. Seleccione **Nueva consulta**. Copie y pegue el código T-SQL siguiente en la ventana de consulta. Seleccione **Ejecutar** para ejecutar esta consulta.
+1. Selecciona **Nueva consulta**. Copia y pega el código T-SQL siguiente en la ventana de consulta. Selecciona **Ejecutar** para ejecutar esta consulta.
 
     ```sql
     USE AdventureWorks2017
+
     GO
     
     SELECT BusinessEntityID, NationalIDNumber, LoginID, HireDate, JobTitle
@@ -63,13 +74,11 @@ Le han contratado como administrador de bases de datos para identificar problema
     WHERE NationalIDNumber = 14417807;
     ```
 
-1. Antes de ejecutar la consulta, selecciona el icono **Incluir plan de ejecución real** o presiona **CTRL+M**. Esto hará que se muestre el plan de ejecución al ejecutar la consulta. Seleccione **Ejecutar** para ejecutar esta consulta.
+1. Selecciona el icono **Incluir plan de ejecución real** a la derecha del botón **Ejecutar** antes de ejecutar la consulta o presiona **CTRL+M**. Esto hará que se muestre el plan de ejecución al ejecutar la consulta. Selecciona **Ejecutar** para ejecutar esta consulta.
 
-    ![Imagen 01](../images/dp-300-module-09-lab-01.png)
+1. Para ir al plan de ejecución, selecciona la pestaña **Plan de ejecución** en el panel de resultados. Observarás que el operador **SELECT** tiene un triángulo amarillo con un signo de exclamación en él. Esto indica que hay un mensaje de advertencia asociado al operador. Mantén el puntero sobre el icono de advertencia para ver el mensaje y leer el mensaje de advertencia.
 
-1. Para ir al plan de ejecución, selecciona la pestaña **Plan de ejecución** en el panel de resultados. En el plan de ejecución, pasa el mouse por encima del operador `SELECT`. Verás un mensaje de advertencia que se identifica con un signo de exclamación en un triángulo amarillo, tal como se muestra a continuación. Identifica lo que le indica el mensaje de advertencia.
-
-    ![Imagen 02](../images/dp-300-module-09-lab-02.png)
+    > &#128221; El mensaje de advertencia indica que hay una conversión implícita en la consulta. Esto significa que el optimizador de consultas de SQL Server tenía que convertir el tipo de datos de una de las columnas de la consulta a otro tipo de datos para ejecutar la consulta.
 
 ## Identificación de maneras de corregir el mensaje de advertencia
 
@@ -98,7 +107,7 @@ CREATE TABLE [HumanResources].[Employee](
 
 1. Según el mensaje de advertencia presentado en el plan de ejecución, ¿qué cambio recomendarías?
 
-    1. Identifique qué campo causa la conversión implícita y por qué. 
+    1. Identifique qué campo causa la conversión implícita y por qué.
     1. Si revisa la consulta:
 
         ```sql
@@ -107,9 +116,9 @@ CREATE TABLE [HumanResources].[Employee](
         WHERE NationalIDNumber = 14417807;
         ```
 
-        Notarás que el valor comparado con la columna *NationalIDNumber* de la cláusula `WHERE` se compara como un número, ya que **14417807** no está en una cadena entre comillas. 
+        Notarás que el valor comparado con la columna *NationalIDNumber* de la cláusula **WHERE** se compara como un número, ya que **14417807** no está en una cadena entre comillas.
 
-        Después de examinar la estructura de la tabla, verás que la columna *NationalIDNumber* usa el tipo de datos `NVARCHAR` y no un tipo de datos `INT`. Esta incoherencia hace que el optimizador de la base de datos convierta de manera implícita el número en un tipo `NVARCHAR`, lo que genera una sobrecarga adicional en el rendimiento de la consulta mediante la creación de un plan poco óptimo.
+        Después de examinar la estructura de la tabla, verás que la columna *NationalIDNumber* usa el tipo de datos **NVARCHAR** y no un tipo de datos entero **INT**. Esta incoherencia hace que el optimizador de la base de datos convierta de manera implícita el número a un valor *NVARCHAR*, lo que genera una sobrecarga adicional en el rendimiento de la consulta mediante la creación de un plan poco óptimo.
 
 Hay dos enfoques que se pueden implementar para corregir la advertencia de conversión implícita. Investigaremos cada uno de ellos en los pasos siguientes.
 
@@ -129,9 +138,7 @@ Hay dos enfoques que se pueden implementar para corregir la advertencia de conve
     WHERE NationalIDNumber = '14417807';
     ```
 
-    ![Imagen 03](../images/dp-300-module-09-lab-03.png)
-
-    **Nota:** la advertencia desaparece y el plan de consulta se ha mejorado. Al cambiar la cláusula `WHERE` para que el valor comparado con la columna *NationalIDNumber* coincida con el tipo de datos de la columna de la tabla, el optimizador puede deshacerse de la conversión implícita.
+    > &#128221; Ten en cuenta que el mensaje de advertencia ha desaparecido y el plan de consulta se ha mejorado. Al cambiar la cláusula *WHERE* para que el valor comparado con la columna *NationalIDNumber* coincida con el tipo de datos de la columna de la tabla, el optimizador puede deshacerse de la conversión implícita y generar un plan más óptimo.
 
 ### Cambio del tipo de datos
 
@@ -143,9 +150,9 @@ Hay dos enfoques que se pueden implementar para corregir la advertencia de conve
     ALTER TABLE [HumanResources].[Employee] ALTER COLUMN [NationalIDNumber] INT NOT NULL;
     ```
 
-    Cambiar el tipo de datos de columna *NationalIDNumber* por INT resolvería el problema de conversión. Sin embargo, este cambio genera otro problema que debe resolver como administrador de bases de datos.
+    Cambiar el tipo de datos de columna *NationalIDNumber* por INT resolvería el problema de conversión. Sin embargo, este cambio genera otro problema que debe resolver como administrador de bases de datos. Al ejecutar la consulta anterior se generará el siguiente mensaje de error:
 
-    ![Imagen 04](../images/dp-300-module-09-lab-04.png)
+    <span style="color:red">Msg 5074, Level 16, Sate 1, Line1  The index 'AK_Employee_NationalIDNumber' is dependent on column 'NationalIDNumber  Msg 4922, Level 16, State 9, Line 1  ALTER TABLE ALTER COLUMN NationalIDNumber failed because one or more objects access this column</span>
 
     Como la columna *NationalIDNumber* forma parte de un índice no agrupado existente, es necesario volver a crear el índice para cambiar el tipo de datos. **Esto podría provocar un tiempo de inactividad prolongado en la producción, lo que resalta la importancia de elegir los tipos de datos correctos en el diseño.**
 
@@ -153,22 +160,26 @@ Hay dos enfoques que se pueden implementar para corregir la advertencia de conve
 
     ```sql
     USE AdventureWorks2017
+
     GO
     
     --Dropping the index first
     DROP INDEX [AK_Employee_NationalIDNumber] ON [HumanResources].[Employee]
+
     GO
 
     --Changing the column data type to resolve the implicit conversion warning
     ALTER TABLE [HumanResources].[Employee] ALTER COLUMN [NationalIDNumber] INT NOT NULL;
+
     GO
 
     --Recreating the index
     CREATE UNIQUE NONCLUSTERED INDEX [AK_Employee_NationalIDNumber] ON [HumanResources].[Employee]( [NationalIDNumber] ASC );
+
     GO
     ```
 
-1. Como alternativa, puedes ejecutar la consulta siguiente para confirmar que el tipo de datos se cambió correctamente.
+1. Ejecuta la consulta siguiente para confirmar que el tipo de datos se cambió correctamente.
 
     ```sql
     SELECT c.name, t.name
@@ -177,9 +188,7 @@ Hay dos enfoques que se pueden implementar para corregir la advertencia de conve
     WHERE OBJECT_ID('[HumanResources].[Employee]') = c.object_id
         AND c.name = 'NationalIDNumber'
     ```
-    
-    ![Imagen 05](../images/dp-300-module-09-lab-05.png)
-    
+
 1. Ahora vamos a comprobar el plan de ejecución. Vuelva a ejecutar la consulta original sin las comillas.
 
     ```sql
@@ -191,8 +200,33 @@ Hay dos enfoques que se pueden implementar para corregir la advertencia de conve
     WHERE NationalIDNumber = 14417807;
     ```
 
-    ![Imagen 06](../images/dp-300-module-09-lab-06.png)
+     Examina el plan de consulta y ten en cuenta que ahora puedes usar un entero para filtrar por *NationalIDNumber* sin la advertencia de conversión implícita. Ahora, el optimizador de consultas de SQL puede generar y ejecutar el plan más óptimo.
 
-    Examina el plan de consulta y ten en cuenta que ahora puedes usar un entero para filtrar por *NationalIDNumber* sin la advertencia de conversión implícita. Ahora, el optimizador de consultas de SQL puede generar y ejecutar el plan más óptimo.
+>&#128221; Aunque cambiar el tipo de datos de una columna puede resolver problemas de conversión implícitos, no siempre es la mejor solución. En este caso, cambiar el tipo de datos de la columna *NationalIDNumber* a un tipo de datos **INT** habría provocado un tiempo de inactividad en producción, ya que el índice de esa columna tendría que quitarse y volver a crearse. Es importante tener en cuenta el impacto de cambiar el tipo de datos de una columna en las consultas e índices existentes antes de realizar cambios. Además, puede haber otras consultas que dependan de que la columna *NationalIDNumber* sea un tipo de datos **NVARCHAR**, por lo que cambiar el tipo de datos podría interrumpir esas consultas.
+
+---
+
+## Limpieza
+
+Si no usas la base de datos o los archivos de laboratorio para ningún otro propósito, puedes limpiar los objetos que creaste en este laboratorio.
+
+### Eliminar la carpeta C:\LabFiles
+
+1. Desde la máquina virtual del laboratorio, o tu máquina local si no se te proporcionó ninguna, abre **Explorador de archivos**.
+1. Ve a **C:\\**.
+1. Elimina la carpeta **C:\LabFiles**.
+
+## Eliminar la base de datos AdventureWorks2017
+
+1. Desde la máquina virtual del laboratorio o la máquina local si no se proporcionó una, inicia una sesión de SQL Server Management Studio (SSMS).
+1. Cuando se abra SSMS, aparecerá de forma predeterminada el cuadro de diálogo **Conectar al servidor**. Elige la instancia predeterminada y selecciona **Conectar**. Es posible que tengas que activar la casilla **Certificado de servidor de confianza**.
+1. En el **Explorador de objetos**, expande la carpeta **Bases de datos**.
+1. Haz clic con el botón derecho en la base de datos **AdventureWorks2017** y selecciona **Eliminar**.
+1. En el cuadro de diálogo **Eliminar objeto**, activa la casilla **Cerrar conexiones existentes**.
+1. Seleccione **Aceptar**.
+
+---
+
+Completaste correctamente este laboratorio.
 
 En este ejercicio, has aprendido a identificar problemas de consulta causados por conversiones implícitas de tipos de datos y a corregirlos para mejorar el plan de consulta.
