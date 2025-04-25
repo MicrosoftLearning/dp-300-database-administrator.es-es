@@ -14,7 +14,7 @@ Le han contratado como ingeniero sénior de datos para ayudar a automatizar las 
 
 1. En Microsoft Edge, abra una nueva pestaña y vaya a la siguiente ruta de acceso de un repositorio de GitHub que contiene una plantilla de ARM para implementar un recurso de SQL Database.
 
-    ```
+    ```url
     https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.sql/sql-database
     ```
 
@@ -109,5 +109,51 @@ Le han contratado como ingeniero sénior de datos para ayudar a automatizar las 
 1. Una vez finalizada, seleccione **Ir al grupo de recursos**. Se te llevará al grupo de recursos de Azure, que contiene un recurso de **SQL Server** de nombre aleatorio creado por la implementación.
 
     ![Imagen 3](../images/dp-300-module-11-lab-03.png)
+
+---
+
+## Recursos de limpieza
+
+Si no usas Azure SQL Server para ningún otro propósito, puedes limpiar los recursos que creaste en este laboratorio.
+
+### Eliminar el grupo de recursos
+
+Si creaste un nuevo grupo de recursos para este laboratorio, puedes eliminar el grupo de recursos para quitar todos los recursos creados en este laboratorio.
+
+1. En Azure Portal, selecciona **Grupos de recursos** en el panel de navegación izquierdo o busca **Grupos de recursos** en la barra de búsqueda y selecciónalo desde los resultados.
+
+1. Ve al grupo de recursos que creaste para este laboratorio. El grupo de recursos contendrá Azure SQL Server y otros recursos creados en este laboratorio.
+
+1. Seleccione **Eliminar grupo de recursos** del menú superior.
+
+1. En el panel **Eliminar un grupo de recursos**, escribe el nombre del grupo de recursos para confirmarlo y selecciona **Eliminar**.
+
+1. Espera a que se elimine el grupo de recursos.
+
+1. Cierra Azure Portal.
+
+### Eliminar solo los recursos del laboratorio
+
+Si no creaste ningún grupo de recursos nuevo para este laboratorio y deseas dejar intacto el grupo de recursos y sus recursos anteriores, aún puedes eliminar los recursos creados en este laboratorio.
+
+1. En Azure Portal, selecciona **Grupos de recursos** en el panel de navegación izquierdo o busca **Grupos de recursos** en la barra de búsqueda y selecciónalo desde los resultados.
+
+1. Ve al grupo de recursos que creaste para este laboratorio. El grupo de recursos contendrá Azure SQL Server y otros recursos creados en este laboratorio.
+
+1. Selecciona todos los recursos con el prefijo del nombre de SQL Server que especificaste anteriormente en el laboratorio.
+
+1. Seleccione **Eliminar** en el menú superior.
+
+1. En el cuadro de diálogo **Eliminar recursos**, escribe **delete** y selecciona **Eliminar**.
+
+1. Para confirmar la eliminación, escribe el nombre del recurso y selecciona **Eliminar**.
+
+1. Espera a que se eliminen los recursos.
+
+1. Cierra Azure Portal.
+
+---
+
+Completaste correctamente este laboratorio.
 
 Acabas de ver cómo, con un solo clic en un vínculo de plantilla de Azure Resource Manager, puedes crear una base de datos y un servidor de Azure SQL Server fácilmente.

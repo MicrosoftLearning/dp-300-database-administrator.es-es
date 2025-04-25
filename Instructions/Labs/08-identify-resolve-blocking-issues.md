@@ -12,43 +12,53 @@ Los alumnos tomarán la información adquirida en las lecciones para definir los
 
 Te han contratado como administrador de bases de datos para identificar problemas relacionados con el rendimiento y proporcionar soluciones viables para resolver los problemas detectados. Debes investigar los problemas de rendimiento y sugerir métodos para resolverlos.
 
-**Nota:** estos ejercicios piden copiar y pegar código T-SQL. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+> &#128221; Estos ejercicios te piden copiar y pegar código T-SQL. Comprueba que el código se ha copiado correctamente antes de ejecutar el código.
+
+## Configura el entorno
+
+Si la máquina virtual de laboratorio se proporcionó y está preconfigurada, deberías encontrar los archivos de laboratorio listos en la carpeta **C:\LabFiles**. *Dedica un momento a comprobar si los archivos ya están allí, y omite esta sección*. Sin embargo, si usas tu propia máquina o faltan los archivos para laboratorio, deberás clonarlos desde *GitHub* para continuar.
+
+1. Desde la máquina virtual del laboratorio, o tu máquina local si no se te proporcionó ninguna, inicia una sesión de Visual Studio Code.
+
+1. Abre la paleta de comandos (CTRL+Mayús+P) y escribe **Git: Clone**. Selecciona la opción **Git: Clone**.
+
+1. Pega la siguiente dirección URL en el campo **Repository URL** y selecciona **Enter**.
+
+    ```url
+    https://github.com/MicrosoftLearning/dp-300-database-administrator.git
+    ```
+
+1. Guarda el repositorio en la carpeta **C:\LabFiles** en la máquina virtual del laboratorio o en tu máquina local si no se te proporcionó ninguna (crea la carpeta si no existe).
+
+---
 
 ## Restaurar una base de datos
 
-1. Descarga el archivo de copia de seguridad de la base de datos ubicado en **https://github.com/MicrosoftLearning/dp-300-database-administrator/blob/master/Instructions/Templates/AdventureWorks2017.bak** en **C:\LabFiles\Monitor y optimiza** la ruta de acceso en la máquina virtual del laboratorio (crea la estructura de carpetas si no existe).
+Si ya tienes restaurada la base de datos **AdventureWorks2017**, puedes omitir esta sección.
 
-    ![Imagen 03](../images/dp-300-module-07-lab-03.png)
+1. Desde la máquina virtual del laboratorio o la máquina local si no se proporcionó una, inicia una sesión de SQL Server Management Studio (SSMS).
 
-1. Selecciona el botón Inicio de Windows y escribe SSMS. Selecciona **Microsoft SQL Server Management Studio 18** en la lista.  
+1. Cuando se abra SSMS, aparecerá de forma predeterminada el cuadro de diálogo **Conectar al servidor**. Elige la instancia predeterminada y selecciona **Conectar**. Es posible que tengas que activar la casilla **Certificado de servidor de confianza**.
 
-    ![Imagen 01](../images/dp-300-module-01-lab-34.png)
+    > &#128221; Ten en cuenta que si usas tu propia instancia de SQL Server, deberás conectarte a ella mediante el nombre y las credenciales de la instancia de servidor adecuadas.
 
-1. Cuando se abra SSMS, observa que el cuadro de diálogo **Conectar con el servidor** se rellenará previamente con el nombre de la instancia predeterminado. Selecciona **Conectar**.
+1. Seleccione la carpeta **Bases de datos** y, a continuación, **Nueva consulta**.
 
-    ![Imagen 02](../images/dp-300-module-07-lab-01.png)
-
-1. Selecciona la carpeta **Bases de datos** y después **Nueva consulta**.
-
-    ![Imagen 03](../images/dp-300-module-07-lab-04.png)
-
-1. En la ventana Nueva consulta, copia y pega la consulta de T-SQL siguiente. Ejecuta la consulta para restaurar la base de datos.
+1. En la ventana Nueva consulta, copie y pegue T-SQL. Ejecute la consulta para restaurar la base de datos.
 
     ```sql
     RESTORE DATABASE AdventureWorks2017
-    FROM DISK = 'C:\LabFiles\Monitor and optimize\AdventureWorks2017.bak'
+    FROM DISK = 'C:\LabFiles\dp-300-database-administrator\Allfiles\Labs\Shared\AdventureWorks2017.bak'
     WITH RECOVERY,
           MOVE 'AdventureWorks2017' 
-            TO 'C:\LabFiles\Monitor and optimize\AdventureWorks2017.mdf',
+            TO 'C:\LabFiles\AdventureWorks2017.mdf',
           MOVE 'AdventureWorks2017_log'
-            TO 'C:\LabFiles\Monitor and optimize\AdventureWorks2017_log.ldf';
+            TO 'C:\LabFiles\AdventureWorks2017_log.ldf';
     ```
 
-    **Nota:** el nombre y la ruta de acceso del archivo de copia de seguridad de la base de datos deben coincidir con lo descargado en el paso 1; de lo contrario, se producirá un error en el comando.
+    > &#128221; Debes tener una carpeta denominada **C:\LabFiles**. Si no tienes esta carpeta, créala o especifica otra ubicación para la base de datos y los archivos de copia de seguridad.
 
-1. Debería aparecer un mensaje de operación correcta una vez completada la restauración.
-
-    ![Imagen 03](../images/dp-300-module-07-lab-05.png)
+1. En la pestaña **Mensajes**, deberías ver un mensaje que indica que la base de datos se restauró correctamente.
 
 ## Ejecución de un informe de consultas bloqueadas
 
@@ -64,11 +74,13 @@ Te han contratado como administrador de bases de datos para identificar problema
     ACTION(sqlserver.client_app_name,sqlserver.client_hostname,sqlserver.database_id,sqlserver.database_name,sqlserver.nt_username,sqlserver.session_id,sqlserver.sql_text,sqlserver.username))
     ADD TARGET package0.ring_buffer
     WITH (MAX_MEMORY=4096 KB, EVENT_RETENTION_MODE=ALLOW_SINGLE_EVENT_LOSS, MAX_DISPATCH_LATENCY=30 SECONDS, MAX_EVENT_SIZE=0 KB,MEMORY_PARTITION_MODE=NONE, TRACK_CAUSALITY=OFF,STARTUP_STATE=ON)
+
     GO
 
     -- Start the event session 
     ALTER EVENT SESSION [Blocking] ON SERVER 
-    STATE = start; 
+    STATE = start;
+
     GO
     ```
 
@@ -87,19 +99,24 @@ Te han contratado como administrador de bases de datos para identificar problema
 
     ```sql
     EXEC sys.sp_configure N'show advanced options', 1
+
     RECONFIGURE WITH OVERRIDE;
+
     GO
     EXEC sp_configure 'blocked process threshold (s)', 60
+
     RECONFIGURE WITH OVERRIDE;
+
     GO
     ```
 
-    **Nota:** el comando anterior especifica el umbral, en segundos, en el que se generan los informes de procesos bloqueados. Como resultado, no es necesario esperar hasta que *blocked_process_report* se genere en esta lección.
+    > &#128221; Ten en cuenta que el comando anterior especifica el umbral, en segundos, en el que se generan los informes de procesos bloqueados. Como resultado, no es necesario esperar hasta que *blocked_process_report* se genere en esta lección.
 
 1. Selecciona **Nueva consulta**. Copia y pega el código T-SQL siguiente en la ventana de consulta. Selecciona **Ejecutar** para ejecutar esta consulta.
 
     ```sql
     USE AdventureWorks2017
+
     GO
 
     BEGIN TRANSACTION
@@ -113,6 +130,7 @@ Te han contratado como administrador de bases de datos para identificar problema
 
     ```sql
     USE AdventureWorks2017
+
     GO
 
     SELECT TOP (1000) [LastName]
@@ -122,27 +140,19 @@ Te han contratado como administrador de bases de datos para identificar problema
     WHERE FirstName = 'David'
     ```
 
-    **Nota:** esta consulta no devuelve ningún resultado y parece ejecutarse indefinidamente.
+    > &#128221; Ten en cuenta que esta consulta no devuelve ningún resultado y parece ejecutarse indefinidamente.
 
 1. En el **Explorador de objetos**, expande **Administración** -> **Eventos extendidos** -> **Sesiones**.
 
     Observa el evento extendido denominado *Bloqueos* que acabamos de crear está en la lista.
 
-    ![Imagen 01](../images/dp-300-module-08-lab-01.png)
+1. Expande el evento extendido *Bloqueo* y haz clic con el botón derecho en **package0.ring_buffer**. Selecciona **Ver datos de destino**.
 
-1. Haz clic con el botón derecho en **package0.ring_buffer** y selecciona **Ver datos de destino**.
+1. Selecciona el hipervínculo que aparece.
 
-    ![Imagen 02](../images/dp-300-module-08-lab-02.png)
+1. El XML te mostrará los procesos que se están bloqueando y el proceso que causa el bloqueo. Puedes ver las consultas que se ejecutaron en este proceso, así como la información del sistema. Toma nota de los id. de sesión (SPID).
 
-1. Selecciona el hipervínculo.
-
-    ![Imagen 03](../images/dp-300-module-08-lab-03.png)
-
-1. El XML te mostrará los procesos que se están bloqueando y el proceso que causa el bloqueo. Puedes ver las consultas que se ejecutaron en este proceso, así como la información del sistema.
-
-    ![Imagen 04](../images/dp-300-module-08-lab-04.png)
-
-1. Como alternativa, puedes ejecutar la siguiente consulta para identificar las sesiones que bloquean otras sesiones, incluida una lista de identificadores de sesión bloqueados por *session_id*.
+1. Como alternativa, puedes ejecutar la siguiente consulta para identificar las sesiones que bloquean otras sesiones, incluida una lista de id. de sesión bloqueados por *session_id*. Abre una ventana de **Nueva consulta**, copia y pega el siguiente código T-SQL en ella y selecciona **Ejecutar**.
 
     ```sql
     WITH cteBL (session_id, blocking_these) AS 
@@ -164,19 +174,13 @@ Te han contratado como administrador de bases de datos para identificar problema
     ORDER BY len(bl.blocking_these) desc, r.blocking_session_id desc, r.session_id;
     ```
 
-    ![Imagen 05](../images/dp-300-module-08-lab-05.png)
+    > &#128221; Ten en cuenta que la consulta anterior devolverá los mismos SPID que el XML.
 
 1. Haz clic con el botón derecho en el evento extendido denominado **Bloqueos** y selecciona **Detener sesión**.
 
-    ![Imagen 06](../images/dp-300-module-08-lab-06.png)
-
 1. Vuelve a la sesión de consulta que está causando el bloqueo y escribe `ROLLBACK TRANSACTION` en la línea debajo de la consulta. Resalta `ROLLBACK TRANSACTION`y selecciona **Ejecutar**.
 
-    ![Imagen 07](../images/dp-300-module-08-lab-07.png)
-
 1. Vuelva a la sesión de consulta que se bloqueó. Observarás que ahora se ha completado la consulta.
-
-    ![Imagen 08](../images/dp-300-module-08-lab-08.png)
 
 ## Habilitación del nivel de aislamiento de instantánea de confirmación de lectura
 
@@ -184,13 +188,15 @@ Te han contratado como administrador de bases de datos para identificar problema
 
     ```sql
     USE master
+
     GO
     
     ALTER DATABASE AdventureWorks2017 SET READ_COMMITTED_SNAPSHOT ON WITH ROLLBACK IMMEDIATE;
+
     GO
     ```
 
-1. Vuelve a ejecutar la consulta que provocó el bloqueo en un nuevo editor de consultas.
+1. Vuelve a ejecutar la consulta que provocó el bloqueo en un nuevo editor de consultas. *No ejecutes el comando ROLLBACK TRANSACTION*.
 
     ```sql
     USE AdventureWorks2017
@@ -215,10 +221,33 @@ Te han contratado como administrador de bases de datos para identificar problema
     WHERE firstname = 'David'
     ```
 
-    ![Imagen 09](../images/dp-300-module-08-lab-09.png)
-
     ¿Por qué se completa la misma consulta, mientras que en la tarea anterior estaba bloqueada por la instrucción de actualización?
 
     El aislamiento de instantánea de lectura confirmada es una forma optimista de aislamiento de transacciones y la última consulta muestra la última versión confirmada de los datos, en lugar de bloquearse.
+
+---
+
+## Limpieza
+
+Si no usas la base de datos o los archivos de laboratorio para ningún otro propósito, puedes limpiar los objetos que creaste en este laboratorio.
+
+### Eliminar la carpeta C:\LabFiles
+
+1. Desde la máquina virtual del laboratorio, o tu máquina local si no se te proporcionó ninguna, abre **Explorador de archivos**.
+1. Ve a **C:\\**.
+1. Elimina la carpeta **C:\LabFiles**.
+
+### Eliminar la base de datos AdventureWorks2017
+
+1. Desde la máquina virtual del laboratorio o la máquina local si no se proporcionó una, inicia una sesión de SQL Server Management Studio (SSMS).
+1. Cuando se abra SSMS, aparecerá de forma predeterminada el cuadro de diálogo **Conectar al servidor**. Elige la instancia predeterminada y selecciona **Conectar**. Es posible que tengas que activar la casilla **Certificado de servidor de confianza**.
+1. En el **Explorador de objetos**, expande la carpeta **Bases de datos**.
+1. Haz clic con el botón derecho en la base de datos **AdventureWorks2017** y selecciona **Eliminar**.
+1. En el cuadro de diálogo **Eliminar objeto**, activa la casilla **Cerrar conexiones existentes**.
+1. Seleccione **Aceptar**.
+
+---
+
+Completaste correctamente este laboratorio.
 
 En este ejercicio, has aprendido a identificar las sesiones bloqueadas y a mitigar esos escenarios.
