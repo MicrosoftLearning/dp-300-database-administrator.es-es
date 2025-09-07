@@ -14,7 +14,7 @@ Es administrador de bases de datos para AdventureWorks. Debe crear un entorno de
 
 ## Implementación de SQL Server en una máquina virtual de Azure
 
-1. En la máquina virtual del laboratorio, inicie una sesión del explorador, vaya a [https://portal.azure.com](https://portal.azure.com/) e inicie sesión con la cuenta Microsoft asociada a la suscripción de Azure.
+1. Inicie una sesión del explorador y vaya a [https://portal.azure.com](https://portal.azure.com/) e inicie sesión con la cuenta Microsoft asociada a su suscripción de Azure.
 
 1. Localice la barra de búsqueda en la parte superior de la página. Busque **Azure SQL**. Seleccione el resultado de la búsqueda de **Azure SQL** que aparece en los resultados, debajo de **Servicios**.
 
