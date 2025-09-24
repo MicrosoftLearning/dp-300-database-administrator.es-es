@@ -82,6 +82,10 @@ Inicia sesión en Azure y comprueba si tienes una instancia de Azure SQL Server 
     **Nota:** esta característica se encuentra en versión preliminar.
 
 1. Selecciona el nombre de usuario administrador de SQL Server y escribe la contraseña o las credenciales de Microsoft Entra, si las tienes asignadas, para conectarte a la base de datos.
+    - **Nombre del servidor:**&lt;_pega el nombre del servidor de Azure SQL Database aquí_&gt;
+    - **Autenticación:** autenticación de SQL Server
+    - **Inicio de sesión de administrador del servidor:** tu inicio de sesión como administrador del servidor de Azure SQL Database
+    - **Contraseña:** tu contraseña como administrador del servidor de Azure SQL Database
 
 1. En **Consulta 1**, escribe la siguiente consulta y selecciona **Ejecutar**:
 
