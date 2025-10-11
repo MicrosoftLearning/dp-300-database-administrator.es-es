@@ -120,7 +120,7 @@ Si ya tienes restaurada la base de datos **AdventureWorks2017**, puedes omitir e
 
     *se=2020-12-31T00%3A00Z&sp=rwdl&sv=2018-11-09&sr=c&sig=rnoGlveGql7IhziyKYUPBq5ltGc/pzqOCNX5rrLdRQ%3D*
 
-## Crear credenciales
+## Crear una credencial
 
 Ahora que la funcionalidad ya está configurada, puedes generar un archivo de copia de seguridad como un blob en la cuenta de Azure Storage.
 
